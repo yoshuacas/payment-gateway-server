@@ -1,0 +1,55 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "tigoPaymentGateway": {
+    "name": "tigoPaymentGateway",
+    "connector": "rest",
+    "debug": "false",
+    "operations": [
+      {
+        "template": {
+          "method": "POST",
+          "url": "https://test.api.tigo.com/v1/oauth/mfs/payments/tokens",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Basic {token}"
+          },
+          "form": {
+            "grant_type": "client_credentials"
+          }
+        },
+        "functions": {
+          "postToken": [
+            "token"
+          ]
+        }
+      }
+    ]
+  },
+  "tigoPaymentGatewayAuth": {
+    "name": "tigoPaymentGatewayAuth",
+    "connector": "rest",
+    "debug": "false",
+    "operations": [
+      {
+        "template": {
+          "method": "POST",
+          "url": "https://test.api.tigo.com/v1/tigo/mfs/payments/authorizations",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer {token}"
+          },
+          "body": "{body}"
+        },
+        "functions": {
+          "postAuth": [
+            "token",
+            "body"
+          ]
+        }
+      }
+    ]
+  }
+}
